@@ -1,0 +1,40 @@
+body {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background-color: black;
+}
+
+.form {
+    position: absolute;
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 0;
+    background-color: white;
+}
+
+h1 {
+    margin: 20px;
+}
+
+legend {
+    color: #A0522D
+}
+
+fieldset {
+    border-radius: 8px;
+}
+
+.outer {
+    margin: 20px;
+}
+
+.short {
+    width: 50px;
+}
+
+textarea {
+    max-width: 750px;
+    max-height: 150px;
+}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel = "stylesheet" href = "research.css">
+        <title>Research</title>
+        <script>
+            function validateForm() {
+                let error = "";
+                if (phoneValidation() === true && conditionValidation() === 0 && timeValidation() === true && studyValidation() === true) {
+                    return confirm("Do you want to submit the form data?");
+                } else {
+                    console.log("HERE");
+                    if (phoneValidation() === false) {
+                        error += "Invalid Phone Number\n";
+                    }
+                    if (conditionValidation() === 1) {
+                        error += "Invalid conditions selection\n";
+                    } else if (conditionValidation() === 2) {
+                        error += "No conditions selected\n";
+                    }
+                    if (timeValidation() === false) {
+                        error += "No time period selected\n";
+                    }
+                    if (studyValidation() === false) {
+                        error += "Invalid study id\n";
+                    }
+                    alert(error);
+                    return false;
+                }
+            }
+    
+            function phoneValidation() {
+                let n1 = document.forms["form"]["phoneFirstPart"].value;
+                let n2 = document.forms["form"]["phoneSecondPart"].value;
+                let n3 = document.forms["form"]["phoneThirdPart"].value;
+    
+                if (n1.length != 3 || n2.length != 3 || n3.length != 4 || isNaN(parseInt(n1)) || isNaN(parseInt(n2)) || isNaN(parseInt(n3))) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+    
+            function conditionValidation() {
+                if (document.forms["form"]["none"].checked) {
+                    if (document.forms["form"]["highBloodPressure"].checked || document.forms["form"]["glaucoma"].checked || document.forms["form"]["diabetes"].checked || document.forms["form"]["asthma"].checked) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                } else if (!document.forms["form"]["highBloodPressure"].checked && !document.forms["form"]["glaucoma"].checked && !document.forms["form"]["diabetes"].checked && !document.forms["form"]["asthma"].checked) {
+                    return 2;
+                } else {
+                    return 0;
+                }
+            }
+    
+            function timeValidation() {
+                let radios = document.getElementsByName("period");
+                let formValid = false;
+
+                let i = 0;
+                while (!formValid && i < radios.length) {
+                    if (radios[i].checked) {
+                        formValid = true;
+                    }
+                    i++;        
+                }
+                
+                return formValid;
+            }
+    
+            function studyValidation() {
+                let first = document.forms["form"]["firstFourDigits"].value;
+                let second = document.forms["form"]["secondFourDigits"].value;
+                let n1 = first.substring(1);
+                let n2 = second.substring(1);
+    
+                if (first.charAt(0) != "A" || second.charAt(0) != "B") {
+                    return false;
+                } else if (n1.length != 3 || n2.length != 3 || isNaN(parseInt(n1)) || isNaN(parseInt(n2))) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <form action = "researchProcessing.php" name = "form" method = "get" class = "form" onsubmit = "return validateForm()">
+            <h1><u>Research Form</u></h1>
+            <fieldset class = "outer">
+                <legend><i><b>General Information</b></i></legend>
+                <label for = "firstname">Firstname: </label>
+                <input type = "text" name = "firstname" id = "firstname" required>
+                <label for = "lastname">Lastname: </label>
+                <input type = "text" name = "lastname" id = "lastname" required><br><br>
+                <label for = "phoneFirstPart">Phone: </label>
+                <input type = "text" name = "phoneFirstPart" id = "phoneFirstPart" class = "short" required> -
+                <input type = "text" name = "phoneSecondPart" id = "phoneSecondPart" class = "short" required> -
+                <input type = "text" name = "phoneThirdPart" id = "phoneThirdPart" class = "short" required>
+                <label for = "email">Email: </label>
+                <input type = "email" name = "email" id = "email" required>
+            </fieldset>
+
+            <fieldset class = "outer">
+                <legend><i><b>Research Study Data</b></i></legend>
+                <fieldset class = "outer">
+                    <legend><b>Age/Height/Weight</b></legend>
+                    <label for = "age"><b>Age: </b></label>
+                    <input type = "number" name = "age" id = "age" class = "short" min = "1" max = "125" required> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label for = "heightFeet"><b>Height: </b></label>
+                    <input type = "number" name = "heightFeet" id = "heightFeet" class = "short" min = "2" max = "7" required> <i>Feet</i>
+                    <input type = "number" name = "heightInches" id = "heightInches" class = "short" min = "0" max = "11" required> <i>Inches</i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label for = "weight"><b>Weight: </b></label>
+                    <input type = "number" name = "weight" id = "weight" class = "short" min = "1" max = "600" required> <i>Pounds</i>
+                </fieldset>
+                <fieldset class = "outer">
+                    <legend><b>Conditions</b></legend>
+                    Which of the following conditions are present in your family? (Check all that apply)<br>
+                    <input type = "checkbox" id = "highBloodPressure" name = "highBloodPressure" value = "High Blood Pressure">
+                    <label for = "highBloodPressure">High Blood Pressure</label>
+                    <input type = "checkbox" id = "diabetes" name = "diabetes" value = "Diabetes">
+                    <label for = "diabetes">Diabetes</label>
+                    <input type = "checkbox" id = "glaucoma" name = "glaucoma" value = "Glaucoma">
+                    <label for = "glaucoma">Glaucoma</label>
+                    <input type = "checkbox" id = "asthma" name = "asthma" value = "Asthma">
+                    <label for = "asthma">Asthma</label>
+                    <input type = "checkbox" id = "none" name = "none" value = "None">
+                    <label for = "none">None</label>
+                </fieldset>
+                <fieldset class = "outer">
+                    <legend><b>Time Period</b></legend>
+                    How long have you experienced any of the above conditions?<br>
+                    <input type = "radio" name = "period" id = "never" value = "Never">
+                    <label for = "never">Never</label>
+                    <input type = "radio" name = "period" id = "lessYear" value = "Less than a year">
+                    <label for = "lessYear">Less than a year</label>
+                    <input type = "radio" name = "period" id = "oneToTwo" value = "One to two years">
+                    <label for = "oneToTwo">One to two years</label>
+                    <input type = "radio" name = "period" id = "moreTwo" value = "More than two years">
+                    <label for = "moreTwo">More than two years</label>
+                </fieldset>
+                <fieldset class = "outer">
+                    <legend><b>Study Information</b></legend>
+                    <label for = "studyType">Which study are you taking part of?</label>
+                    <select name = "studyType" id = "studyType">
+                        <option value = "Long Term" selected>Long Term</option>
+                        <option value = "Short Term">Short Term</option>
+                    </select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label for = "firstFourDigits">Assigned Study Id: </label>
+                    <input type = "text" name = "firstFourDigits" id = "firstFourDigits" class = "short" placeholder = "A777" required> - 
+                    <input type = "text" name = "secondFourDigits" id = "secondFourDigits" class = "short" placeholder = "B888" required>
+                </fieldset>
+
+                <fieldset class = "outer">
+                    <legend><b>Additional Information (Comments)</b></legend>
+                    <textarea id = "comments" name = "comments" rows = "6" cols = "70"></textarea>
+                </fieldset>
+
+                <fieldset class = "outer">
+                    <input type = "reset" value = "Clear Form">
+                    <input type = "submit" value = "Submit Information">
+                </fieldset>
+            </fieldset>
+            
+        </form>
+    </body>
+</html>
